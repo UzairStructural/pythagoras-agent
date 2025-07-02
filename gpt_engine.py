@@ -1,8 +1,7 @@
 from openai import OpenAI
-import openai
 from config import OPENAI_API_KEY
 
-openai.api_key = OPENAI_API_KEY
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 SYSTEM_PROMPT = """
 You are Pythagoras, a professional project manager AI agent.
@@ -33,15 +32,8 @@ def ask_gpt_with_memory(user_query, memory):
         {"role": "user", "content": user_query}
     ]
 
-   from openai import OpenAI
-
-client = OpenAI(api_key=OPENAI_API_KEY)
-
-response = client.chat.completions.create(
-    model="gpt-4o",
-    messages=messages
-)
-return response.choices[0].message.content
-
-    return response["choices"][0]["message"]["content"]
-
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=messages
+    )
+    return response.choices[0].message.content
