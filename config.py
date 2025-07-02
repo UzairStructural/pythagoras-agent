@@ -1,1 +1,3 @@
-OPENAI_API_KEY = "sk-..."  # 🔐 Replace with your key
+import streamlit as st
+
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
