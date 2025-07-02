@@ -1,6 +1,7 @@
 import streamlit as st
 from gpt_engine import ask_gpt_with_memory
 from memory_store import store_embedding, retrieve_similar_chunks
+from utils.file_parser import extract_text_from_file  # New import
 
 st.title("Pythagoras - Project Management Agent")
 
@@ -9,11 +10,7 @@ query = st.text_area("Ask a question or provide context")
 
 if st.button("Submit"):
     if uploaded_file:
-        try:
-            content = uploaded_file.read().decode("utf-8")
-        except UnicodeDecodeError:
-            uploaded_file.seek(0)  # reset file pointer
-            content = uploaded_file.read().decode("latin-1")
+        content = extract_text_from_file(uploaded_file)
         store_embedding(content)
         st.success("Memory stored")
 
