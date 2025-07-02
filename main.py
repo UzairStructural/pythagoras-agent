@@ -9,8 +9,12 @@ query = st.text_area("Ask a question or provide context")
 
 if st.button("Submit"):
     if uploaded_file:
-        content = uploaded_file.read().decode("utf-8")
-        store_embedding(content)  # Save to vector DB
+        try:
+            content = uploaded_file.read().decode("utf-8")
+        except UnicodeDecodeError:
+            uploaded_file.seek(0)  # reset file pointer
+            content = uploaded_file.read().decode("latin-1")
+        store_embedding(content)
         st.success("Memory stored")
 
     if query:
